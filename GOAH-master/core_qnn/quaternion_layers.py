@@ -11,8 +11,7 @@ import math
 import sys
 
 class QuaternionTransposeConv(Module):
-    r"""Applies a Quaternion Transposed Convolution (or Deconvolution) to the incoming data.
-    """
+    
 
     def __init__(self, in_channels, out_channels, kernel_size, stride,
                  dilatation=1, padding=0, output_padding=0, groups=1, bias=True, init_criterion='he',
@@ -88,8 +87,7 @@ class QuaternionTransposeConv(Module):
             + ', operation='      + str(self.operation) + ')'
 
 class QuaternionConv(Module):
-    r"""Applies a Quaternion Convolution to the incoming data.
-    """
+    
 
     def __init__(self, in_channels, out_channels, kernel_size, stride,
                  dilatation=1, padding=0, groups=1, bias=True, init_criterion='glorot',
@@ -117,9 +115,9 @@ class QuaternionConv(Module):
 
 
         (self.kernel_size, self.w_shape) = get_kernel_and_weight_shape( self.operation,
-            self.in_channels, self.out_channels, kernel_size ) #通道数会除于四啊啊啊啊啊
+            self.in_channels, self.out_channels, kernel_size ) 
 
-        self.r_weight = Parameter(torch.Tensor(*self.w_shape)) #和卷积核一样的唯度w_shape = (out_channels, in_channels) + (*ks,)
+        self.r_weight = Parameter(torch.Tensor(*self.w_shape)) 
         self.i_weight = Parameter(torch.Tensor(*self.w_shape))
         self.j_weight = Parameter(torch.Tensor(*self.w_shape))
         self.k_weight = Parameter(torch.Tensor(*self.w_shape))
@@ -139,7 +137,7 @@ class QuaternionConv(Module):
 
     def reset_parameters(self):
         affect_init_conv(self.r_weight, self.i_weight, self.j_weight, self.k_weight,
-                    self.kernel_size, self.winit, self.rng, self.init_criterion) #quaternion_init, 随机？, glorot
+                    self.kernel_size, self.winit, self.rng, self.init_criterion) 
         if self.scale_param is not None:
             torch.nn.init.xavier_uniform_(self.scale_param.data)
         if self.bias is not None:
@@ -172,10 +170,7 @@ class QuaternionConv(Module):
 
 
 class QuaternionLinearAutograd(Module):
-    r"""Applies a quaternion linear transformation to the incoming data. A custom
-    Autograd function is call to drastically reduce the VRAM consumption. Nonetheless, computing
-    time is also slower compared to QuaternionLinear().
-    """
+    
 
     def __init__(self, in_features, out_features, bias=True,
                  init_criterion='glorot', weight_init='quaternion',
@@ -237,8 +232,7 @@ class QuaternionLinearAutograd(Module):
             + ', seed=' + str(self.seed) + ')'
 
 class QuaternionLinear(Module):
-    r"""Applies a quaternion linear transformation to the incoming data.
-    """
+    
 
     def __init__(self, in_features, out_features, bias=True,
                  init_criterion='he', weight_init='quaternion',
