@@ -43,7 +43,6 @@ def check_input(input):
             " input.size()[1] = " + str(nb_hidden)
         )
 #
-# Getters
 #
 def get_r(input):
     check_input(input)
@@ -194,17 +193,7 @@ def quaternion_transpose_conv(input, r_weight, i_weight, j_weight, k_weight, bia
 
 def quaternion_conv_rotation(input, zero_kernel, r_weight, i_weight, j_weight, k_weight, bias, stride,
                     padding, groups, dilatation, quaternion_format, scale=None):
-    """
-    Applies a quaternion rotation and convolution transformation to the incoming data:
-
-    The rotation W*x*W^t can be replaced by R*x following:
-    https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
-
-    Works for unitary and non unitary weights.
-
-    The initial size of the input must be a multiple of 3 if quaternion_format = False and
-    4 if quaternion_format = True.
-    """
+    
 
     square_r          = (r_weight*r_weight)
     square_i          = (i_weight*i_weight)
@@ -279,18 +268,7 @@ def quaternion_conv_rotation(input, zero_kernel, r_weight, i_weight, j_weight, k
 
 def quaternion_transpose_conv_rotation(input, zero_kernel, r_weight, i_weight, j_weight, k_weight, bias, stride,
                     padding, output_padding, groups, dilatation, quaternion_format):
-    """
-    Applies a quaternion rotation and transposed convolution transformation to the incoming data:
-
-    The rotation W*x*W^t can be replaced by R*x following:
-    https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
-
-    Works for unitary and non unitary weights.
-
-    The initial size of the input must be a multiple of 3 if quaternion_format = False and
-    4 if quaternion_format = True.
-
-    """
+    
 
     square_r          = (r_weight*r_weight)
     square_i          = (i_weight*i_weight)
@@ -347,15 +325,7 @@ def quaternion_transpose_conv_rotation(input, zero_kernel, r_weight, i_weight, j
 
 
 def quaternion_linear(input, r_weight, i_weight, j_weight, k_weight, bias=True):
-    """
-    Applies a quaternion linear transformation to the incoming data:
-
-    It is important to notice that the forward phase of a QNN is defined
-    as W * Inputs (with * equal to the Hamilton product). The constructed
-    cat_kernels_4_quaternion is a modified version of the quaternion representation
-    so when we do torch.mm(Input,W) it's equivalent to W * Inputs.
-
-    """
+    
 
     cat_kernels_4_r = torch.cat([r_weight, -i_weight, -j_weight, -k_weight], dim=0)
     cat_kernels_4_i = torch.cat([i_weight,  r_weight, -k_weight, j_weight], dim=0)
@@ -379,17 +349,7 @@ def quaternion_linear(input, r_weight, i_weight, j_weight, k_weight, bias=True):
 
 def quaternion_linear_rotation(input, zero_kernel, r_weight, i_weight, j_weight, k_weight, bias=None,
                                quaternion_format=False, scale=None):
-    """
-    Applies a quaternion rotation transformation to the incoming data:
-
-    The rotation W*x*W^t can be replaced by R*x following:
-    https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
-
-    Works for unitary and non unitary weights.
-
-    The initial size of the input must be a multiple of 3 if quaternion_format = False and
-    4 if quaternion_format = True.
-    """
+    
 
     square_r          = (r_weight*r_weight)
     square_i          = (i_weight*i_weight)
@@ -530,7 +490,7 @@ class QuaternionLinearFunction(torch.autograd.Function):
 
         return grad_input, grad_weight_r, grad_weight_i, grad_weight_j, grad_weight_k, grad_bias
 
-def hamilton_product(q0, q1): #能不能用哈密顿积做QK的积
+def hamilton_product(q0, q1): 
     """
     Applies a Hamilton product q0 * q1:
     Shape:
@@ -569,7 +529,6 @@ def hamilton_product(q0, q1): #能不能用哈密顿积做QK的积
     return torch.cat([r, i, j, k], dim=1)
 
 #
-# PARAMETERS INITIALIZATION
 #
 
 def unitary_init(in_features, out_features, rng, kernel_size=None, criterion='he'):
