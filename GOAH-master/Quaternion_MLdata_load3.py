@@ -82,7 +82,7 @@ def load_wine():
     path = 'MLdata/wine/'
     data_name = 'wine'
     print("loading wine...")
-    data = pd.read_csv("{}{}.data".format(path, data_name), header=None) #第0列是label
+    data = pd.read_csv("{}{}.data".format(path, data_name), header=None) 
     label = data.iloc[:, 0]
 
     fea = data.iloc[:, 1:]
@@ -97,7 +97,7 @@ def load_heart():
     path = 'MLdata/heart_failure/'
     data_name = 'heart'
     print("loading heart failure...")
-    data = pd.read_csv("{}{}.csv".format(path, data_name)) #第0列是label
+    data = pd.read_csv("{}{}.csv".format(path, data_name)) 
     label = data.iloc[:, -1]
     fea = data.iloc[:, :-1]
     fea = fea.values.astype(np.float32)
@@ -171,7 +171,7 @@ def load_BC():
     fea = data.iloc[:, :-1]
     label = data.iloc[:, -1]
 
-    fea = fea.values.astype(np.float32) - 1 # 保证从0开始
+    fea = fea.values.astype(np.float32) - 1 
     label = label.values.astype(int) - 1
 
     return fea, label
@@ -673,8 +673,6 @@ def MLload_data(name):
         return
 
 
-'''{'zoo':7 36, 'iris':3 4, 'wine':3 13, 'car':4 21, 'heart': 2 17, 'ttt': 2 17, 
-\\'yeast': 10 8, 'breast':2 43 , 'hayes': 3 15 , 'glass': 6, 'lymphography': 4 9}'''
 
 
 
