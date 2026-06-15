@@ -97,7 +97,7 @@ def load_heart():
     path = 'MLdata/heart_failure/'
     data_name = 'heart'
     print("loading heart failure...")
-    data = pd.read_csv("{}{}.csv".format(path, data_name)) #第0列是label
+    data = pd.read_csv("{}{}.csv".format(path, data_name)) 
     label = data.iloc[:, -1]
     fea = data.iloc[:, :-1]
     fea = fea.values.astype(np.float32)
@@ -116,7 +116,7 @@ def load_ttt():
     path = 'MLdata/tic_tac_toe/'
     data_name = 'tic_tac_toe'
     print("loading tic_tac_toe...")
-    data = pd.read_csv("{}{}.data".format(path, data_name), header=None) #第0列是label
+    data = pd.read_csv("{}{}.data".format(path, data_name), header=None) 
 
     fea = data.iloc[:, :-1]
 
@@ -171,7 +171,7 @@ def load_BC():
     fea = data.iloc[:, :-1]
     label = data.iloc[:, -1]
 
-    fea = fea.values.astype(np.float32) - 1 # 保证从0开始
+    fea = fea.values.astype(np.float32) - 1 
     label = label.values.astype(int) - 1
 
     return fea, label
@@ -264,7 +264,7 @@ class pm(object):
             cpd[t] = [ [None for i in range(self.d)] for j in range(self.no_values[t]) ]
             for m in range(0, self.no_values[t]):  # for each possible value of a ^ t
                 locate_x_tm = x[:, t] == m
-                no_x_tm = sum(locate_x_tm)  # sum the categorical number in a column; so it need from 0 to values - 1
+                no_x_tm = sum(locate_x_tm)  
 
                 for r in range(0, self.d - self.no_num_att):
                     """if a^r is a categorical attribute"""
@@ -431,8 +431,7 @@ class pm(object):
             cpd[t] = [ [None for i in range(self.d)] for j in range(self.no_values[t]) ]
             for m in range(0, self.no_values[t]):  # for each possible value of a ^ t
                 locate_x_tm = x[:, t] == m
-                no_x_tm = sum(locate_x_tm)  # sum the categotical number in a column; so it need from 0 to values - 1
-
+                no_x_tm = sum(locate_x_tm)  
                 for r in range(0, self.d - self.no_num_att):
                     """if a^r is a categorical attribute"""
                     cpd[t][m][r] = np.zeros((1, self.no_values[r]))
@@ -673,10 +672,6 @@ def MLload_data(name):
         return
 
 
-'''{'zoo':7 36, 'iris':3 4, 'wine':3 13, 'car':4 21, 'heart': 2 17, 'ttt': 2 17, 
-\\'yeast': 10 8, 'breast':2 43 , 'hayes': 3 15 , 'glass': 6, 'lymphography': 4 9}'''
-
-
 
 
 def build_dynamic_hypergraph(embedding, k_neighbors=8, n_clusters=50, S=2, device=torch.device('cpu')):
@@ -690,7 +685,7 @@ def build_dynamic_hypergraph(embedding, k_neighbors=8, n_clusters=50, S=2, devic
     # 1. local hyperedges via k-NN
     knn = NearestNeighbors(n_neighbors=min(k_neighbors, n), algorithm='auto').fit(emb)
     _, indices = knn.kneighbors(emb)
-    local_hyperedges = [list(ind_row) for ind_row in indices]  # 每个节点的超边
+    local_hyperedges = [list(ind_row) for ind_row in indices]  
 
     # 2. global hyperedges via KMeans
     n_clusters_use = min(int(n_clusters), max(1, n // 2))
